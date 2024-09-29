@@ -1,6 +1,7 @@
 import re
 from abc import abstractmethod
 from .validator import Validator
+from typing import List
 
 class OrderIdValidator(Validator):
     def validate(self, data) -> dict:
@@ -63,7 +64,7 @@ class OrderPriceValidator(Validator):
         return {"status": True, "message": "success"}
     
 class OrderValidateManager:
-    validators = [
+    validators: List[Validator] = [
         OrderIdValidator(),
         OrderNameValidator(),
         OrderAddressCityValidator(),
