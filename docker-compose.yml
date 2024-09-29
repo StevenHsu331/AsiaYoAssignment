@@ -1,0 +1,8 @@
+version: '3.10'
+
+services:
+  django:
+    image: asiayo_assignment:0.2
+    build: .
+    ports:
+      - "8000:8000"
