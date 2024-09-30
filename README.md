@@ -8,7 +8,7 @@
     ) as may_amount\
     FROM bnbs b\
     LEFT JOIN orders o ON b.id = o.bnb_id\
-    WHERE o.created_at BETWEEN STR_TO_DATE("2024-05-01", "%Y-%m-%d") AND STR_TO_DATE("2024-05-31", "%Y-%m-%d")\
+    WHERE o.created_at BETWEEN "2024-05-01" AND "2024-05-31"\
     GROUP BY b.id, b.name\
     ORDER BY may_amount DESC\
     LIMIT 10
