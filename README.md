@@ -1,12 +1,20 @@
 1. 以下使用MySQL語法\
-    SELECT b.id, b.name, SUM(o.amount) as may_amount FROM bnbs b\
+    SELECT\
+    b.id,\ 
+    b.name,\ 
+    SUM(\
+        CASE WHEN o.currency = 'TWD'\
+        THEN o.amount ELSE 0 END\
+    ) as may_amount\
+    FROM bnbs b\
     LEFT JOIN orders o ON b.id = o.bnb_id\
     WHERE o.created_at BETWEEN STR_TO_DATE("2024-05-01", "%Y-%m-%d") AND STR_TO_DATE("2024-05-31", "%Y-%m-%d")\
     GROUP BY b.id, b.name\
     ORDER BY may_amount DESC\
     LIMIT 10
 
-2. 可以針對bnbs.bnd_id, orders.created_at建立複合索引, 能夠加速過濾出5月的所有訂單以及join的速度
+2. 可以針對bnbs.bnd_id, orders.created_at, orders.currency建立複合索引, 能夠提高過濾出5月的所有訂單，join兩張表以及計算SUM的速度/
+或者可以加上USE INDEX在表單後面，提示SQL應該使用INDEX避免在查詢時沒有正卻使用INDEX/
 
 API設計所使用的SOLID原則:\
 S(單一職責原則): validator負責資料的驗證，service負責資料的異動，兩者功能互不重疊，各司其職\
